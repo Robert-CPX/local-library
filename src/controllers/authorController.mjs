@@ -1,16 +1,14 @@
-import Author from "../models/authorModel.mjs";
+import Author from "../models/author.mjs";
 import expressAsyncHandler from "express-async-handler";
 
 // Display list of all authors.
 export const authorList = expressAsyncHandler(async (req, res) => {
-  const authors = await Author.find();
-  res.render("authorList", { title: "Author List", authors });
+  res.send("NOT IMPLEMENTED: Author list");
 });
 
 // Display detail page for a specific author.
 export const authorDetail = expressAsyncHandler(async (req, res) => {
-  const author = await Author.findById(req.params.id);
-  res.render("authorDetail", { title: "Author Detail", author });
+  res.send(`NOT IMPLEMENTED: Author detail: ${req.params.id}`);
 });
 
 // Display author create form on GET.

@@ -3,11 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 
 // Display list of all BookInstances.
 export const bookinstanceList = expressAsyncHandler(async (req, res) => {
-  const bookinstances = await BookInstance.find().populate("book");
-  res.render("bookinstanceList", {
-    title: "Book Instance List",
-    bookinstances,
-  });
+  res.send("NOT IMPLEMENTED: BookInstance list");
 });
 
 // Display detail page for a specific BookInstance.

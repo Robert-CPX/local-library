@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index.mjs";
 import usersRouter from "./routes/users.mjs";
+import catalogRouter from "./routes/catalog.mjs";
 import createHttpError from "http-errors";
 import { connectToDatabase } from "./lib/mongoose.mjs";
 
@@ -38,6 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/catalog", catalogRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {

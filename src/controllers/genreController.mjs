@@ -1,16 +1,14 @@
-import Genre from "../models/genreModel.mjs";
+import Genre from "../models/genre.mjs";
 import expressAsyncHandler from "express-async-handler";
 
 // Display list of all Genre.
 export const genreList = expressAsyncHandler(async (req, res) => {
-  const genres = await Genre.find();
-  res.render("genreList", { title: "Genre List", genres });
+  res.send("NOT IMPLEMENTED: Genre list");
 });
 
 // Display detail page for a specific Genre.
 export const genreDetail = expressAsyncHandler(async (req, res) => {
-  const genre = await Genre.findById(req.params.id);
-  res.render("genreDetail", { title: "Genre Detail", genre });
+  res.send(`NOT IMPLEMENTED: Genre detail: ${req.params.id}`);
 });
 
 // Display Genre create form on GET.

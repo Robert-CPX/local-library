@@ -7,8 +7,7 @@ export const index = (req, res) => {
 
 // Display list of all Books.
 export const bookList = expressAsyncHandler(async (req, res) => {
-  const books = await Book.find();
-  res.render("bookList", { title: "Book List", books });
+  res.send("NOT IMPLEMENTED: Book list");
 });
 
 // Display detail page for a specific Book.
