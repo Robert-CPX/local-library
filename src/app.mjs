@@ -5,8 +5,17 @@ import logger from "morgan";
 import indexRouter from "./routes/index.mjs";
 import usersRouter from "./routes/users.mjs";
 import createHttpError from "http-errors";
+import { connectToDatabase } from "./lib/mongoose.mjs";
 
 const app = express();
+
+// Connect to database
+try {
+  await connectToDatabase();
+} catch (error) {
+  console.error("Error connecting to database", error);
+  process.exit(1);
+}
 
 const PORT = process.env.PORT || 1234;
 
