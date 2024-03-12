@@ -24,7 +24,12 @@ const PORT = process.env.PORT || 1234;
 app.use(logger("dev"));
 
 // Handlebars Middleware
-app.engine("handlebars", engine({ defaultLayout: "main" }));
+app.engine(
+  "handlebars",
+  engine({
+    defaultLayout: "main",
+  })
+);
 app.set("view engine", "handlebars");
 app.set("views", `${import.meta.dirname}/views`);
 

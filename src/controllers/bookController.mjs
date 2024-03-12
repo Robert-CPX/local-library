@@ -1,18 +1,58 @@
-import Book from "../models/book.mjs";
+import { Book, Bookinstance, Author, Genre } from "../models/index.mjs";
 import expressAsyncHandler from "express-async-handler";
 
-export const index = (req, res) => {
-  res.render("index", { title: "Local Library Home" });
+export const index = async (req, res) => {
+  const [
+    bookCount,
+    bookInstanceCount,
+    bookInstanceAvailableCount,
+    authorCount,
+    genreCount,
+  ] = await Promise.all([
+    Book.countDocuments({}).exec(),
+    Bookinstance.countDocuments({}).exec(),
+    Bookinstance.countDocuments({ status: "Available" }).exec(),
+    Author.countDocuments({}).exec(),
+    Genre.countDocuments({}).exec(),
+  ]);
+
+  res.render("index", {
+    title: "Local Library Home",
+    data: {
+      bookCount,
+      bookInstanceCount,
+      bookInstanceAvailableCount,
+      authorCount,
+      genreCount,
+    },
+  });
 };
 
 // Display list of all Books.
 export const bookList = expressAsyncHandler(async (req, res) => {
-  res.send("NOT IMPLEMENTED: Book list");
+  const allBooks = await Book.find({}, "title author")
+    .sort({ title: 1 })
+    .populate("author")
+    .exec();
+  res.render("bookList", { title: "Book List", books: allBooks });
 });
 
 // Display detail page for a specific Book.
 export const bookDetail = expressAsyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: Book detail: ${req.params.id}`);
+  const [book, bookInstances] = await Promise.all([
+    Book.findById(req.params.id).populate("author genre").exec(),
+    Bookinstance.find({ book: req.params.id }).exec(),
+  ]);
+  if (book === null) {
+    const err = new Error("Book not found");
+    err.status = 404;
+    return next(err);
+  }
+  res.render("bookDetail", {
+    title: book.title,
+    book,
+    bookInstances,
+  });
 });
 
 // Display Book create form on GET.

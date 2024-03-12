@@ -18,6 +18,14 @@ BookInstanceSchema.virtual("url").get(function () {
   return `/catalog/bookinstance/${this._id}`;
 });
 
+BookInstanceSchema.virtual("due_back_formatted").get(function () {
+  return this.due_back.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+});
+
 const BookInstance =
   models?.BookInstance || model("BookInstance", BookInstanceSchema);
 

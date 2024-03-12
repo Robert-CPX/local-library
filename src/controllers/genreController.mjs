@@ -8,7 +8,20 @@ export const genreList = expressAsyncHandler(async (req, res) => {
 
 // Display detail page for a specific Genre.
 export const genreDetail = expressAsyncHandler(async (req, res) => {
-  res.send(`NOT IMPLEMENTED: Genre detail: ${req.params.id}`);
+  const [genre, booksInGenre] = await Promise.all([
+    Genre.findById(req.params.id).exec(),
+    Book.find({ genre: req.params.id }, "title summary").exec(),
+  ]);
+  if (genre === null) {
+    const err = new Error("Genre not found");
+    err.status = 404;
+    return next(err);
+  }
+  res.render("genreDetail", {
+    title: "Genre Detail",
+    genre,
+    booksInGenre,
+  });
 });
 
 // Display Genre create form on GET.
