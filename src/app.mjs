@@ -8,11 +8,20 @@ import catalogRouter from "./routes/catalog.mjs";
 import createHttpError from "http-errors";
 import { connectToDatabase } from "./lib/mongoose.mjs";
 import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
 // Set security headers
 app.use(helmet());
+
+// Set up rate limiter: maximum of twenty requests per minute
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+
+app.use(limiter);
 
 // Connect to database
 try {
