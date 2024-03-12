@@ -9,7 +9,20 @@ export const authorList = expressAsyncHandler(async (req, res) => {
 
 // Display detail page for a specific author.
 export const authorDetail = expressAsyncHandler(async (req, res) => {
-  res.send(`NOT IMPLEMENTED: Author detail: ${req.params.id}`);
+  const [author, allBooksByAuthor] = await Promise.all([
+    Author.findById(req.params.id).exec(),
+    Book.find({ author: req.params.id }, "title summary").exec(),
+  ]);
+  if (author === null) {
+    const err = new Error("Author not found");
+    err.status = 404;
+    return next(err);
+  }
+  res.render("authorDetail", {
+    title: "Author Detail",
+    author,
+    allBooksByAuthor,
+  });
 });
 
 // Display author create form on GET.
