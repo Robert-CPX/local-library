@@ -9,6 +9,7 @@ import createHttpError from "http-errors";
 import { connectToDatabase } from "./lib/mongoose.mjs";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import compression from "compression";
 
 const app = express();
 
@@ -22,6 +23,8 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+
+app.use(compression()); // Compress all routes
 
 // Connect to database
 try {
