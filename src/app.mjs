@@ -7,8 +7,12 @@ import usersRouter from "./routes/users.mjs";
 import catalogRouter from "./routes/catalog.mjs";
 import createHttpError from "http-errors";
 import { connectToDatabase } from "./lib/mongoose.mjs";
+import helmet from "helmet";
 
 const app = express();
+
+// Set security headers
+app.use(helmet());
 
 // Connect to database
 try {
